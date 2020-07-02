@@ -1,8 +1,10 @@
 import time
+import tempfile
 
 from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from PIL import Image
 
 from .models import Group, Post, Follow
 
@@ -110,7 +112,11 @@ class PostTest(TestCase):
 
     def test_image_publishing(self):
         print("Testing image publishing...", end="\n\n")
-        with open('posts/media/cat.jpg', 'rb') as img:
+        image = Image.new('RGB', (100, 100))
+        tmp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        image.save(tmp_file)
+
+        with open(tmp_file.name, 'rb') as img:
             self.client.post(
                 reverse("new_post"), data={
                     "text": self.post_text,
@@ -119,13 +125,15 @@ class PostTest(TestCase):
                     "image": img
                 }, follow=True
             )
+
         tag = "<img"
         time.sleep(self.cache_delay)
         self.run_request_sequence(self.post_text, tag=tag)
 
     def test_nonimage_protection(self):
         print("Testing non-image protection...", end="\n\n")
-        with open('posts/media/text.txt', 'rb') as img:
+        tmp_file = tempfile.NamedTemporaryFile(suffix='.txt')
+        with open(tmp_file.name, 'rb') as img:
             self.client.post(
                 reverse("new_post"), data={
                     "text": self.post_text,
