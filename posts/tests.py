@@ -138,7 +138,7 @@ class PostTest(TestCase):
         response = self.client.get(reverse("post", args=(self.user, '1',)))
         self.assertEqual(response.status_code, 404)
 
-    def dtest_cache_delay(self):
+    def test_cache_delay(self):
         print("Testing cache delay...", end="\n\n")
         self.client.get(reverse("index"))
         self.client.post(
