@@ -162,8 +162,8 @@ class PostTest(TestCase):
         response = self.client.get(reverse("index"))
         self.assertContains(response, self.post_text)
 
-    def test_subscription(self):
-        print("Testing subsriptions...", end="\n\n")
+    def test_subscribing(self):
+        print("Testing subscribing...", end="\n\n")
         subscriber = User.objects.create_user(
                         username="subsriber",
                         email="subsriber@gmail.com",
@@ -175,12 +175,21 @@ class PostTest(TestCase):
                         kwargs={"username": self.user.username}))
         self.assertEqual(Follow.objects.count(), 1)
 
+    def test_unsubscribing(self):
+        print("Testing subscribing...", end="\n\n")
+        subscriber = User.objects.create_user(
+                        username="subsriber",
+                        email="subsriber@gmail.com",
+                        password="1a2b3c4e5d"
+        )
+        self.client.force_login(subscriber)
+
         self.client.get(reverse("profile_unfollow",
                         kwargs={"username": self.user.username}))
         self.assertEqual(Follow.objects.count(), 0)
 
     def test_subscription_update(self):
-        print("Testing subsription update...", end="\n\n")
+        print("Testing subscription update...", end="\n\n")
         self.client.post(
             reverse("new_post"), data={
                 "text": self.post_text,
