@@ -6,7 +6,6 @@ from posts.models import Group
 
 
 User = get_user_model()
-GROUP_LIST = [(group, group.title) for group in Group.objects.all()]
 
 
 class CreationForm(UserCreationForm):
