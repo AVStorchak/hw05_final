@@ -20,11 +20,15 @@ Python 3.
     - source venv/bin/activate
     - pip install -r requirements.txt
 
-2. Run python manage.py createsuperuser. Follow the process to create the admin account.
+2. Create the database dependencies through running:
+    - python manage.py makemigrations
+    - python manage.py migrate
 
-3. Access the administrator page at http://127.0.0.1:1337/admin/, and create the required groups for posts.
+3. Run python manage.py createsuperuser. Follow the process to create the admin account.
 
-4. The blog is ready!
+4. Access the administrator page at http://127.0.0.1:1337/admin/, and create the required groups for posts.
+
+5. The blog is ready!
 
 ## Running the tests
 
